@@ -20,15 +20,11 @@
 SHOW DATABASES;
 ```
 
-
-
 ##### 查询当前数据库
 
 ```sql
 SELECT DATABASE();
 ```
-
-
 
 #### 创建
 
@@ -36,15 +32,11 @@ SELECT DATABASE();
 CREATE DATABASE [IF NOT EXISTS] 数据库名 [DEFAULT CHARSET 字符集] [COLLATE 排序规则];
 ```
 
-
-
 #### 删除
 
 ```sql
 DROP DATABASE [IF EXISTS] 数据库名;
 ```
-
-
 
 #### 使用
 
@@ -64,15 +56,11 @@ USE 数据库名;
 SHOW TABLES
 ```
 
-
-
 ##### 查询表结构
 
 ```sql
 DESC 表名;
 ```
-
-
 
 ##### 查询指定表的建表语句
 
@@ -113,8 +101,6 @@ CREATE TABLE 表名(
 
 `score double(4,1)`
 
-
-
 ##### 字符串类型
 
 | 类型       | 大小         | 描述                         | 特点                |
@@ -128,8 +114,6 @@ CREATE TABLE 表名(
 | MEDIUMBLOB | 0-16777215   | 二进制形式的中等长度文本数据 |                     |
 | MEDIUMTEXT | 0-16777215   | 中等长度文本数据             |                     |
 | LONGBLOB   | 0-4294967295 | 二进制形式的极大文本数据     |                     |
-
-
 
 ##### 日期时间类型
 
@@ -171,15 +155,11 @@ ALTER TABLE 表名 ADD 字段名 类型（长度）[COMMENT注释][约束];
 ALTER TABLE emp nickname varchar(20) COMMENT '昵称';
 ```
 
-
-
 ##### 修改数据类型
 
 ```sql
 ALTER TABLE 表名 MODIFY 字段名 新数据类型（长度）;
 ```
-
-
 
 ##### 修改字段名和字段类型
 
@@ -193,8 +173,6 @@ ALTER TABLE 表名 CHANGE 旧字段名 新字段名 类型（长度） [COMMENT 
 ALTER TABLE emp CHANGE nickname username varchar(30);
 ```
 
-
-
 ##### 删除字段
 
 ```sql
@@ -206,8 +184,6 @@ ALTER TABLE 表名 DROP 字段名;
 ```sql
 ALTER TABLE emp DROP username;
 ```
-
-
 
 ##### 修改表名
 
@@ -231,8 +207,6 @@ ALTER TABLE emp RENAME TO employee;
 DROP TABLE [IF EXISTS] 表名;
 ```
 
-
-
 ##### 删除指定表，并重新创建该表
 
 ```sql
@@ -252,8 +226,6 @@ USE 数据库名;
 SELECT DATABASE();
 DROP DATABASE 数据库名;
 ```
-
-
 
 ##### 2.DDL-表操作
 
