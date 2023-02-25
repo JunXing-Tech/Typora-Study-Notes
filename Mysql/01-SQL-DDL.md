@@ -16,7 +16,7 @@
 
 ##### 查询所有数据库
 
-```sql
+```mysql
 SHOW DATABASES;
 ```
 

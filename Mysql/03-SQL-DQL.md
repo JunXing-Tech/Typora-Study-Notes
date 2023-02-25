@@ -56,8 +56,6 @@ SELECT 字段1[AS 别名1],字段2[AS别名2] ... FROM 表名;
 SELECT workaddress [AS] '工作地址' FROM emp;
 ```
 
-
-
 ##### 去除重复记录
 
 ```sql
@@ -191,14 +189,102 @@ SELECT workaddress, COUNT(*) AS address_count FROM emp WHERE age < 45 GROUP BY w
 ##### 语法
 
 ```sql
-SELECT 字段列表 FROM 表名 ODER BY 字段1 排序方式1, 字段2 排序方式2;
+SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1, 字段2 排序方式2;
+```
+
+##### 排序方式
+
+* ASC 升序
+* DESC 降序
+
+##### 案例
+
+根据年龄对公司的员工进行升序排序，年龄相同，再按照入职时间进行降序排序
+
+```sql
+SELECT * FROM emp ORDER BY age ASC, entrydate DESC;
+```
+
+##### 注意
+
+* 如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序。
+
+
+
+#### DQL-分页查询
+
+##### 语法
+
+```sql
+SELECT 字段列表 FROM 表名 LIMIT 起始索引, 查询记录数;
+```
+
+##### 注意
+
+* 起始索引从0开始，起始索引 = （查询页码 - 1） * 每页显示记录数。
+
+* 分页查询是数据库的方言，不同的数据库有不同的实现，MySQL中是LIMIT。
+* 如果查询的是第一页数据，起始索引可以省略，直接简写为linit 10。
+
+##### 案例
+
+查询第二页员工数据，每页展示10条记录
+
+```sql 
+SELECT * FROM emp LIMIT 1, 10;
+```
+
+查询年龄为20， 21， 22， 23岁的女性员工信息
+
+```sql
+SELECT * FROM emp WHERE gender = '女' AND age IN (20, 21, 22, 23);
+```
+
+查询性别为男，并且年龄在20 - 40岁（含）以内的姓名为三个字的员工
+
+```sql
+SELECT * FROM emp WHERE gender = '男' AND (age BETWEEN 20 AND 40) AND LIKE '___';
+```
+
+统计员工表中，年龄小于60岁的，男性员工和女性员工的人数
+
+```sql
+SELECT gender, COUNT(*) FROM emp WHERE age < 60 GROUP BY gender; 
+```
+
+查询所有年龄小于等于35岁员工的姓名和年龄，并对查询结果年龄升序排序，年龄相同按入职时间降序排序
+
+```sql
+SELECT name, age FROM emp WHERE age <= 35 ORDER BY age ASC, entrydate DESC;
+```
+
+查询性别为男，且年龄在20 - 40岁（含）以内的前5个员工信息，对查询的结果按年龄升序排序，年龄相同按入职时间升序排序
+
+```sql
+SELECT * FROM emp WHERE gender = '男' AND (age BETWEEN 20 AND 40) ORDER BY age ASC, entrydate ASC LIMIT 0, 5;
 ```
 
 
 
+#### DQL-执行顺序
+
+##### 编写顺序
+
+```sql
+SELECT 字段列表 FROM 表名列表 WHERE 条件列表 GROUP BY 分组字段列表 HAVING 分组后条件列表 ORDER BY 排序字段列表 LIMIT 分页参数;
+```
+
+执行顺序
+
+```sql
+FROM 表名列表 WHERE 条件列表 GROUP BY 分组字段列表 HAVING 分组后条件列表 SELECT 字段列表 ORDER BY 排序字段列表 LIMIT 分页参数;
+```
+
 
 
 [返回文首](#SQL-DQL)
+
+
 
 
 
