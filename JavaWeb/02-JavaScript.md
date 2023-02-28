@@ -263,7 +263,7 @@ onload事件的静态注册是在<body>标签中
 <button onclick = "onclickFun();"></button>
 ```
 
-动态注册onclick事件
+###### 动态注册onclick事件
 
 ```javascript
 <script type = "text/javascript">
@@ -281,9 +281,349 @@ onload事件的静态注册是在<body>标签中
     <button id = "btn01">按钮</button>
 ```
 
-##### 失去焦点事件
+##### onblur失去焦点事件
 
+###### 静态注册失去焦点事件
 
+ ```javascript
+ <script type = "text/javascript">
+     function onblurFun(){
+     	//console是控制台对象，是由JavaScript语言提供，专门用来向浏览器的控制器打印输出，用于测试使用
+     	//log()是打印的方法
+     	console.log("静态注册失去焦点事件");
+ 	}
+ </script>
+ </head>
+ <body>
+     用户名：<input type="text" onblur="onblurFun();"><br/>
+ 	密码：<input type="text"><br/>
+ ```
+
+###### 动态失去焦点事件
+
+```javascript
+<script type = "text/javascript">
+	window.onload = function(){
+    	var passwordObj = document.getElementById("password");
+    	passwordObj.onblur = function(){
+            console.log("动态注册失去焦点事件");
+        }
+}
+</script>
+</head>
+<body>
+    用户名：<input type="text" onblur="onblurFun();"><br/>
+	密码：<input id="password" type="text"><br/>
+```
+
+##### onchange事件
+
+###### 静态注册onchange事件
+
+```javascript
+<script type="text/javascript">
+    function onchangeFun(){
+    alert("Number is changed");
+}
+</script>
+</head>
+<body>
+    <select onchange="onchangeFun();">
+        <option>Number</option>
+		...
+```
+
+###### 动态注册onchange事件
+
+```javascript
+<script type="text/javascript">
+    //1.获取标签对象
+    window.onload = function(){
+	var selObj = document.getElemenrById("sel01"){
+    //2.通过标签对象.事件名 = function(){}
+    selObj.onchange = function(){
+    	alert("Number is changed");
+    }
+}
+</script>
+</head>
+<body>
+    <select id = "sel01">
+        <option>Number</option>
+		...
+```
+
+##### onsubmit表单提交事件
+
+###### 静态注册onsubmit事件
+
+```javascript
+<script type = "text/javascript">
+	function onsubmitFun(){
+    	if(	){//验证其合法性，如表单项不合法，则阻止提交
+    		alert("静态注册表单提交事件---不合法");
+    		return false;
+        }
+	}    
+</script>
+</head>
+<body>
+    <form action = "http://localhost:8080" method = "post" onsubmit = "return onsubmitFun()">
+        <input type = "submit" value = "静态注册"/>
+    </form>
+```
+
+###### 动态注册onsubmit事件
+
+```javascript
+<script type = "text/javascript">
+	window.onload = function(){
+    	var formObj = document.getElementById("form01");
+    	formObj.onsubmit = function(){
+            alert("动态注册onsubmit事件");
+            return false;//阻止
+        }
+}
+</script>
+</head>
+<body>
+    <form action = "http://localhost:8080" method = "post" id = "form01">
+        <input type = "submit" value = "静态注册"/>
+    </form>
+```
+
+#### DOM模型
+
+> DOM全称是Document Object Model 文档对象模型。是把文档中的标签，属性，文本，转换成为对象来管理。
+
+##### Document对象
+
+Document文档树内存结构及使用方法的==[参考网址](https://blog.csdn.net/qq_41993503/article/details/98340920)==（点击可跳转）
+
+##### Document对象的理解
+
+* Document管理了所有的HTML文档内容
+* document是一种树结构文档，有层级关系
+* document让所有标签都对象化
+* 可以通过document访问所有的标签对象
+
+##### Document对象中的方法介绍
+
+* document.getElementById(elementId)
+* document.getElementByName(elementName)
+* document.getElementByTagName(tagname)
+* document.createElement(tagName)
+
+##### 需求
+
+当用户点击了校验按钮，要获取输出框中的内容。然后验证其是否合法。
+
+验证的规则是，必须有字母、数字、下划线组成，并且长度为5到12位
+
+```javascript
+<script type="text/javascript">
+    function onclickFun(){
+    	//获取标签对象
+    	var usernameObj = document.getElementById("username");
+    	var usernameText = usernameObj.value;
+    	var patt = /^\w{5, 12}$/;
+    	//test()方法用于测试输入字符串是否符合输入规则
+    	if(patt.test(usernameText)){
+        	alert("用户名合法");
+    	}else{
+        	alert("用户名不合法");
+    	}
+	}
+</script>
+</head>
+<body>
+    用户名：<input type="text" id="username" value="username"/>
+    <button onclick="onclickFun()">校验</button>
+```
+
+#### 正则表达式对象
+
+参考资料==[菜鸟教程-正则表达式](https://www.runoob.com/regexp/regexp-syntax.html)==（点击可跳转）
+
+#### 两种常见的验证提示效果
+
+##### 第一种
+
+```javascript
+<script type="text/javascript">
+    function onclickFun(){
+    	//获取标签对象
+    	var usernameObj = document.getElementById("username");
+    	var usernameText = usernameObj.value;
+    	var patt = /^\w{5, 12}$/;
+    	//test()方法用于测试输入字符串是否符合输入规则
+    	var usernameSpanObj = document.getElementById("usernameSpan");
+    	//innerHTML 表示起始标签和结束标签中的内容
+    	//innerHTML 此属性可读，可写
+    	if(patt.test(usernameText)){
+        	usernameSpanObj.innerHTML = "用户名合法";
+    	}else{
+        	usernameSpanObj.innerHTML = "用户名不合法";
+    	}
+	}
+</script>
+</head>
+<body>
+    用户名：<input type="text" id="username" value="username"/>
+        <span id="usernameSpan style ="color:red;"></span>
+    <button onclick="onclickFun()">校验</button>
+```
+
+##### 第二种
+
+```javascript
+在第一种的情况下，将 usernameSpanObj.innerHTML = "<img src = \"正确的/错误的.jpg\">"
+```
+
+##### getElementsByName方法
+
+> 返回带有指定名称的对象集合
+
+```javascript
+	<script type="text/javascript">
+    	function checkALL(){
+        	//document.getElementsByName();根据指定的name属性查询返回多个标签对象集合
+        	//集合的操作与数组一样
+        	//集合中每个元素都为dom对象
+        	//集合中元素顺序位HTML页面中从上到下的顺序
+        	var hobbies = document.getElementsByName("hobby");
+        	//checked表示复选框的选中状态，选中则为true，反之则为false
+        	//checked属性可读，可写
+        	for(var i = 0; i < hobbies.length; i++){
+                hobbies[i].checked = true;
+            }
+    	}
+		function checkNo(){
+            var hobbies = document.getElementsByName("hobby");
+        	for(var i = 0; i < hobbies.length; i++){
+                hobbies[i].checked = false;
+            }
+        }
+		function checkReverse(){
+			var hobbies = document.getElementsByName("hobby");
+            for(var i =0; i < hobbies.length; i++){
+                if(hobbies[i] == true)
+                    hobbies[i] = false;
+                if(hobbies[i] == false)
+                    hobbies[i] = true;
+            }
+        }
+	</script>
+</head>
+<body>
+        兴趣爱好：
+		<input type="checkbox" name="hobby" value="cpp">C++
+		<input type="checkbox" name="hobby" value="java">Java
+		<input type="checkbox" name="hobby" value="js">JavaScript
+		<button onclick="checkALL">全选</button>
+		<button onclick="checkNo">全不选</button>
+		<button onclick="checkReverse">反选</button>
+```
+
+##### getElementsByTagName方法
+
+> 返回带有指定签名的对象集合
+
+```javascript
+<script type="text/javascript">
+    	function checkALL(){
+        	//document.getElementsByTagName();根据指定标签名来进行查询并返回集合
+        	//集合的操作与数组一样
+        	//集合中每个元素都为dom对象
+        	//集合中元素顺序位HTML页面中从上到下的顺序
+        	var inputs = document.getElementsByTagName("input");
+        	//checked表示复选框的选中状态，选中则为true，反之则为false
+        	//checked属性可读，可写
+        	for(var i = 0; i < inputs.length; i++){
+                inpurs[i].checked = true;
+            }
+    	}
+	</script>
+</head>
+<body>
+        兴趣爱好：
+		<input type="checkbox" value="cpp">C++
+		<input type="checkbox" value="java">Java
+		<input type="checkbox" value="js">JavaScript
+		<button onclick="checkALL">全选</button>
+```
+
+##### document对象三个查询方法的使用注意事项
+
+* document对象的三个查询方法，如果有id属性，优先使用**getElementById**方法来进行查询。如果没有id属性，则优先使用**getElementsByName**。如果id属性和name属性都没有最后再按标签名查**getElementsByTagName**。
+* 三个方法都一定要在页面加载完成之后执行，才能查询到标签对象。
+
+#### 节点的常用属性和方法
+
+节点是标签对象
+
+##### 方法
+
+getElementsByTagName()
+
+获取当前节点的指定标签名孩子节点
+
+appendChild(oChildNode)
+
+可以添加一个子节点，oChildNode是要添加的孩子节点
+
+##### 属性
+
+childNodes
+
+获取当前节点的所有节点
+
+firstNode
+
+获取当前节点的第一个子节点
+
+lastNode
+
+获取当前节点的最后一个子节点
+
+parentNode
+
+获取当前节点的父节点
+
+nextSibling
+
+获取当前节点的下一个节点
+
+previousSibling
+
+获取当前节点的上一个节点
+
+className
+
+用于获取或设置标签的class属性值
+
+innerHTML
+
+获取/设置起始标签和结束标签中的内容
+
+innerText
+
+获取/设置起始标签和结束标签中的文本
+
+#### DOM查询练习
+
+#### createElement() && appendChild()
+
+```javascript
+<script type="text/javascript">
+    window.onload = function(){
+    	//使用JavaScript代码创建HTML标签，并显示在页面上
+    	var divObj = document.createElement("div");
+    	var divObj.innerHTML = "创建div标签"；
+        document.body.appendChild(divObj);
+	}
+</script>
+```
 
 
 
