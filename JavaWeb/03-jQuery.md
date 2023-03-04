@@ -366,7 +366,224 @@ $(function(){
 })
 ```
 
-jQuery练习-全选、全不选、反选
+#### Dom的增、删、改
+
+##### 内部插入
+
+append()
+
+```javascript
+a.appendTo(b) //把a插入到b子元素末尾，成为最后一个子元素
+$("<h1>标题</h1>").appendTo("div");
+```
+
+prependTo()
+
+```javascript
+ a.prependTo(b) //把a插入到b所有子元素前面，成为第一个子元素
+```
+
+##### 外部插入
+
+insertAfter()
+
+```javascript
+a.insertAfter(b) //得到ba，平级插入
+```
+
+insertBefore()
+
+```javascript
+a.insertBefore(b) //ab
+```
+
+##### 替换
+
+replaceWith()
+
+```javascript
+a.replaceWith(b) //用b替换a
+```
+
+replaceAll()
+
+```javascript
+a.replaceAll(b) //用a替换所有的b
+```
+
+##### 删除
+
+remove()
+
+```javascript
+a.remove() //删除a标签
+```
+
+empty()
+
+```javascript
+a.empty() //清空a标签的内容
+```
+
+#### jQuery练习
+
+##### 全选、全不选、反选
+
+```javascript
+```
+
+
+
+##### 两列表的内容的相互移动
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "UTF-8">
+    <title></title>
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type = "text/javascript">
+        //页面加载完成
+        $(function(){
+            //第一个按钮 / 选中添加到右边
+            $("button:eq(0)").click(function(){
+                $("select:eq(0) option:selected").appendTo($("select:eq(1)"));
+            });
+
+            $("button:eq(1)").click(function(){
+                $("select:eq(0) option").appendTo($("select:eq(1)"));
+            });
+
+            $("button:eq(2)").click(function(){
+                $("select:eq(1) option:selected").appendTo($("select:eq(0)"));
+            });
+
+            $("button:eq(3)").click(function(){
+                $("select:eq(1) option").appendTo($("select:eq(0)"));
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div id = "left">
+    <select multiple = "multiple" name = "sel01">
+        <option value = "opt01">选项1</option>
+        <option value = "opt02">选项2</option>
+        <option value = "opt03">选项3</option>
+        <option value = "opt04">选项4</option>
+        <option value = "opt05">选项5</option>
+        <option value = "opt06">选项6</option>
+        <option value = "opt07">选项7</option>
+        <option value = "opt08">选项8</option>
+    </select>
+
+    <button>选中添加到右边</button>
+    <button>全部添加到右边</button>
+</div>
+<div id = "right">
+    <select multiple = "multiple" name = "sel02"></select>
+    <button>选中删除到左边</button>
+    <button>全部删除到左边</button>
+</div>
+</body>
+</html>
+```
+
+##### 动态添加、删除表格记录
+
+```html
+<html>
+    <head>
+        <meta charset = "UTF-8">
+        <title></title>
+        <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type = "text/javascript">
+            $(function(){
+                //给submit按钮绑定单击事件
+                $("#addEmpButton").click(function(){
+                    //获取输入框的姓名、邮箱、工资的内容
+                    var name = $("#empName").val();
+                    var email = $("#email").val();
+                    var salary = $("#salary").val();
+                    //创建一个行标签对象，添加到显示器数据的表格中
+                   	var $trObj = ("<tr> +
+                	"<td>" + name +"</td>" +
+                	"<td>" +  email +"</td>" +
+                	"<td>" + salary + "</td>" +
+                	"<td><a href = "deleteEmp?id = 001">Delete</a></td>" +
+            		"</tr>");
+                    //添加到显示数据的表格中
+            		$trObj.appendTo("#employeeTable");
+                    
+                    //给删除的a标签绑定单击事件
+                    $("a").click(function(){
+                        
+                        //return false; 可以阻止元素的默认行为
+                        return false;
+                    })
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <table id = "">
+            <tr>
+                <th>name</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th> </th>
+            </tr>
+            <tr>
+                <td>Tom</td>
+                <td>tom@tom.com</td>
+                <td>5000</td>
+                <td><a href = "deleteEmp?id = 001">Delete</a></td>
+            </tr>
+            <tr>
+                <td>Jerry</td>
+                <td>jerry@sohu.com</td>
+                <td>8000</td>
+                <td><a href = "deleteEmp?id = 002">Delete</a></td>
+            </tr>
+            <tr>
+                <td>Bob</td>
+                <td>bob@tom.com</td>
+                <td>10000</td>
+                <td><a href = "deleteEmp?id = 003">Delete</a></td>
+            </tr>
+        </table>
+        <div id = "">
+            <tr>
+                <td class = "">name</td>
+                <td class = "">
+                    <input type = "text" name = "empName" id = "empName" />
+                </td>
+            </tr>
+            <tr>
+                <td class = "">email</td>
+                <td class = "">
+                    <input type = "text" name = "email" id = "email" />
+                </td>
+            </tr>
+            <tr>
+                <td class = "">salary</td>
+                <td class = "">
+                    <input type = "text" name = "salary" id = "salary" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan = "2" align = "center">
+                    <button id = "addEmpButton" value = "abc">
+                        Submit
+                    </button>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>
+```
 
 
 
