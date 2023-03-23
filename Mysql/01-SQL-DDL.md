@@ -88,7 +88,7 @@ CREATE TABLE 表名(
 | ----------- | ------ | ---------------------------------- | ------------------------------------- | -------------------- |
 | TINYINT     | 1 byte | (-128, 127)                        | (0, 255)                              | 小整数值             |
 | SMALLINT    | 2byte  | (-32768, 32767)                    | (0, 65535)                            | 大整数值             |
-| MEDIUMINT   | 3byte  | (-8388608, 8388607)                | (0,  )                                | 大整数值             |
+| MEDIUMINT   | 3byte  | (-8388608, 8388607)                | (0, 16777215)                         | 大整数值             |
 | INT/INTEGER | 4 byte | (-2147483648, 2147483647)          | (0, 4294967295)                       | 大整数值             |
 | BIGINT      | 8 byte | (-2^63^, 2^63-1^)                  | (0, 2^64-1^)                          | 极大整数值           |
 | FLOAT       | 4 byte | $\approx -(3.4e^{38},3.4^{38})$    | 0和$\approx(1.1e^{-38}, 3.4e^{38} $)  | 单精度浮点数值       |
@@ -148,7 +148,7 @@ ALTER TABLE 表名 ADD 字段名 类型（长度）[COMMENT注释][约束];
 * 案例：为emp表增加一个新的字段“昵称”为nickname，类型为varchar(20)
 
 ```sql
-ALTER TABLE emp nickname varchar(20) COMMENT '昵称';
+ALTER TABLE emp ADD nickname varchar(20) COMMENT '昵称';
 ```
 
 ##### 修改数据类型
@@ -230,7 +230,7 @@ SHOW TABLE;
 CREATE TABLE 表名（字段 字段类型，字段 字段类型）;
 DESC 表名;
 SHOW CREATE TABLE 表名;
-ALTER TABLE 表名 ADD/MODIFY/CHANGE/DROP/RENAME TO...;
+ALTER TABLE 表名 ADD/ MODIFY / CHANGE / DROP / RENAME TO...;
 DROP TABLE 表名;
 ```
 

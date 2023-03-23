@@ -8,7 +8,7 @@
 
 #### DCL-介绍
 
-> DCL英文全称是ata Control Language（数据控制语言），用来管理数据库用户、控制数据库的访问权限。
+> DCL英文全称是Data Control Language（数据控制语言），用来管理数据库用户、控制数据库的访问权限。
 
 #### DCL-管理用户
 
@@ -54,13 +54,13 @@ CREATE USER 'heima'@'%' '123456';
 修改用户heima的访问密码1234
 
 ```mysql
-ALTER USER 'heima'@'%' IDENTIFIED WITH
-mysql_native_password BY '1234';
+ALTER USER 'heima'@'%' IDENTIFIED WITH mysql_native_password BY '1234';
 ```
 
 删除itcast@localhost用户
 
 ```mysql
+DROP USER 'itcast'@'localhost';
 ```
 
 ##### 注意

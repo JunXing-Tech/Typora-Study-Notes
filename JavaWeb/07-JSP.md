@@ -353,7 +353,168 @@ file 属性指定你要包含的 jsp 页面的路径
 
 ##### JSP动态包含
 
+`<jsp:include page=""></jsp:include>` 这是动态包含 
+
+page 属性是指定你要包含的 jsp 页面的路径 
+
+动态包含也可以像静态包含一样。把被包含的内容执行输出到包含位置 动
+
+态包含的特点： 
+
+1、动态包含会把包含的 jsp 页面也翻译成为 java 代码 2、动态包含底层代码使用如下代码去调用被包含的 jsp 页面执行输出。 
+
+`JspRuntimeLibrary.include(request, response, "/include/footer.jsp", out, false);`
+
+ 3、动态包含，还可以传递参数.
+
 ##### JSP请求转发
+
+`<jsp:forward page=""></jsp:forward>` 是请求转发标签，它的功能就是请求转发 page 属性设置请求转发的路径
+
+`<jsp:forward page="/scope2.jsp"></jsp:forward>`
+
+#### JSP练习题
+
+##### 在JSP页面中输出九九乘法表
+
+```jsp
+<%@ page contectType="text/html";charset="UTF-8" language="java" %>
+<html>
+    <head>
+        <title>Title</title>
+        <style type="text/css">
+            table{
+                width:650px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 align="center">九九乘法口诀表</h1>
+        <table align="center">
+            <% for(int i = 0; i <= 9; i++){ %>
+    			<tr>
+                    <% for(int j = 1; j <= i; j++){
+    <td><%=j + "x" + i + "=" + (i*j)%></td>
+				<%	}%>
+        		</tr>
+			<%	}%>
+        </table>
+    </body>
+</html>
+```
+
+##### 遍历输出10个学生信息到表格中
+
+```jsp
+<%@ page import="java.util.List" %>
+<%@ page import="com.atguigu.pojo.Student" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+	<title>Title</title>
+	<style>
+	table{
+        border: 1px blue solid;
+        width: 600px;
+        border-collapse: collapse;
+		}
+        td,th{
+        border: 1px blue solid;
+        }
+    </style>
+</head>
+<body>
+<%--练习二：jsp 输出一个表格，里面有 10 个学生信息。--%>
+    <%
+    List<Student> studentList = (List<Student>) request.getAttribute("stuList");
+    %>
+    <table>
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>电话</td>
+            <td>操作</td>
+        </tr>
+    <% for (Student student : studentList) { %>
+        <tr>
+            <td><%=student.getId()%></td>
+            <td><%=student.getName()%></td>
+            <td><%=student.getAge()%></td>
+            <td><%=student.getPhone()%></td>
+            <td>删除、修改</td>
+        </tr>
+    <% } %>
+    </table>
+</body>
+</html>
+```
+
+#### 什么是Listener监听器
+
+1、Listener 监听器它是 JavaWeb 的三大组件之一。JavaWeb 的三大组件分别是：Servlet 程序、Filter 过滤器、Listener 监 听器。 
+
+2、Listener 它是 JavaEE 的规范，就是接口 
+
+3、监听器的作用是，监听某种事物的变化。然后通过回调函数，反馈给客户（程序）去做一些相应的处理。
+
+##### ServletContextListener监听器
+
+ServletContextListener 它可以监听 ServletContext 对象的创建和销毁。 
+
+ServletContext 对象在 web 工程启动的时候创建，在 web 工程停止的时候销毁。 
+
+监听到创建和销毁之后都会分别调用 ServletContextListener 监听器的方法反馈。
+
+两个方法分别是:
+
+```java
+public interface ServletContextListener extends EventListener {
+/**
+* 在 ServletContext 对象创建之后马上调用，做初始化
+*/
+	public void contextInitialized(ServletContextEvent sce);
+/**
+* 在 ServletContext 对象销毁之后调用
+*/
+	public void contextDestroyed(ServletContextEvent sce);
+}
+```
+
+如何使用 ServletContextListener 监听器监听 ServletContext 对象。 
+
+使用步骤如下： 
+
+1、编写一个类去实现 ServletContextListener 
+
+2、实现其两个回调方法 
+
+3、到 web.xml 中去配置监听
+
+监听器实现类
+
+```java
+public class MyServletContextListenerImpl implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+    	System.out.println("ServletContext 对象被创建了");
+    }
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+    	System.out.println("ServletContext 对象被销毁了");
+    }
+}
+```
+
+web.xml中的配置
+
+```xml
+<!--配置监听器-->
+<listener>
+    <listener-class>com.atguigu.listener.MyServletContextListenerImpl</listener-class>
+</listener>
+```
 
 
 
