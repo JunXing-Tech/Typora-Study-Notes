@@ -25,6 +25,18 @@
 5. 方便进行事务操作
 6. 降低 API 开发难度
 
+5.bean.xml
+
+> bean.xml是一个配置文件，用于定义Spring框架中的JavaBean（对象）及其依赖关系。它描述了应用程序中的组件之间如何协作，并提供了一种实现松散耦合的机制，以便更轻松地更改应用程序的行为。通过bean.xml文件中的配置，Spring容器可以管理，创建和注入这些组件，从而使整个应用程序能够运行。
+
+6.bean.xml中的id值的作用
+
+> 在 Spring 框架中，bean.xml 文件的 id 值用于标识每个 bean 对象的唯一性。可以使用该值在代码中获取特定的 bean 对象实例，也可以将其用作其他 bean 的依赖项。
+>
+> 例如，通过在 bean.xml 中为一个 bean 指定一个 id 值，在 Java 代码中可以使用 ApplicationContext.getBean("id") 方法获取该对象的实例。
+>
+> 同时，id 值也用于在 XML 配置文件中引用其他的 bean 对象，如使用 ref 属性指定另一个 bean 对象的 id 作为当前 bean 的依赖项
+
 #### 入门开发案例
 
 1.下载Spring5
