@@ -382,7 +382,7 @@ public class TestBean{
         //加载Spring文件
         ApplicationContext context = new ClassPathXmlApplicationContext("bean2.xml");
         //获取配置创建的对象
-        UserServlet userServlce = context.getBean("userService", UserService.class);
+        UserService userService = context.getBean("userService", UserService.class);
         
         userService.add();
     }
@@ -488,7 +488,7 @@ public void setDept(Dept dept){
     <!--还需要在Emp类中生成getDept方法-->
     <property name="dept.dname" value="技术部"></property>
 </bean>
-<bean id="dept" class="com.atguigu.spring5.bean.Dept">
+<bean id="dept" class="com.spring5.bean.Dept">
     <property name="dname" value="财务部"></property>
 </bean>
 ```
@@ -727,7 +727,7 @@ public void test3() {
 * 普通bean是直接创建并初始化的，而工厂bean是通过一个工厂方法来创建实例；
 * 普通bean可以通过依赖注入方式获取实例，而工厂bean需要通过getBean()方法显式地获取实例；
 * 普通bean在IOC容器启动时就会被创建，而工厂bean只有在调用getBean()方法时才会实例化；
-* 工厂bean可以在创建实例之前执行一些定制的逻辑或者根据不同条件返回不同的实例
+* 工厂bean可以在创建实例之前执行一些定制的逻辑或者根据不同条件返回不同的实例；
 
 #### IOC操作Bean管理（bean作用域）
 
@@ -784,8 +784,8 @@ com.spring5.collectiontype.Book@7a36aefa
 * 设置 scope 值是 singleton 时候，加载 spring 配置文件时候就会创建单实例对象 
 
 * 设置 scope 值是 prototype 时候，不是在加载 spring 配置文件时候创建对象，在==调用 getBean 方法==时候创建多实例对象
-* 当bean的scope属性值为singleton时，Spring IoC容器只会创建一个共享的实例，并在需要时将该实例分配给所有请求它的对象。这意味着无论在应用程序的任何地方请求该bean，都会接收到同一实例的引用。
-* scope属性值为prototype时，每次从Spring IoC容器中请求该bean时，都会创建一个新的实例。这意味着每个请求都获得一个独立的bean实例。
+* 当bean的scope属性值为singleton时，Spring IoC容器只会创建一个==共享的实例==，并在需要时将该实例分配给所有请求它的对象。这意味着无论在应用程序的任何地方请求该bean，都会接收到同一实例的引用。
+* scope属性值为prototype时，每次从Spring IoC容器中请求该bean时，都会创建一个==新的实例==。这意味着每个请求都获得一个独立的bean实例。
 
 > 因此，如果您需要在整个应用程序中共享一个bean实例，则应使用singleton作为scope属性值；如果您需要每次请求时创建一个新的bean实例，则应使用prototype作为scope属性值。
 
@@ -833,7 +833,7 @@ public class Orders {
 
 `init-method="initMethod"（初始化方法名）`
 
-`destory-method=""`
+`destory-method="destroyMethod"（销毁f'fa）`
 
 ```xml
 <bean id="orders" class="com.spring5.bean.Orders" init-method="initMethod" destroy-method="destroyMethod">
@@ -906,7 +906,7 @@ public class MyBeanPost implements BeanPostProcessor {
 
 ```xml
 <!--配置后置处理器-->
-<bean id="myBeanPost" class="com.atguigu.spring5.bean.MyBeanPost"></bean>
+<bean id="myBeanPost" class="com.spring5.bean.MyBeanPost"></bean>
 ```
 
 ```markdown
@@ -935,7 +935,7 @@ bean后置处理器的作用
 //autowire软件包中的Emp.java
 public class Emp{
     private Dept dept;
-    public void setDept(dept dept){
+    public void setDept(Dept dept){
         this.dept = dept;
     }
     
@@ -1042,6 +1042,7 @@ prop.password=root
 
 ```xml
 <!--引入外部属性文件-->
+<!--context:property-placeholder是Spring框架中一个XML命名空间的元素，用于加载属性文件中的属性到Spring容器中，以供其他组件引用-->
 <context:property-placeholder location="classpath:jdbc.properties"/>
 
 <!--配置连接池-->
@@ -1120,12 +1121,13 @@ spring-aop-5.2.6.RELEASE.jar
 ```xml
 <!--示例 1
     use-default-filters="false" 表示现在不使用默认 filter，自己配置 filter
+	use-default-filters是一个属性，它用于指示Spring是否应该使用默认过滤器来扫描组件
     context:include-filter ，设置扫描哪些内容
+	type="annotation"，按注解类型包含组件
 	不再扫描软件包中全部的类，而是扫描带有特定注解的类（Controller）
 -->
-<context:component-scan base-package="com.atguigu" use-default-filters="false">
-    <context:include-filter type="annotation" 
-        expression="org.springframework.stereotype.Controller"/>
+<context:component-scan base-package="com.spring5 use-default-filters="false" ">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 </context:component-scan>
 ```
 
@@ -1135,15 +1137,15 @@ spring-aop-5.2.6.RELEASE.jar
     context:exclude-filter： 设置哪些内容不进行扫描
 -->
 <context:component-scan base-package="com.atguigu">
-    <context:exclude-filter type="annotation" 
-
-expression="org.springframework.stereotype.Controller"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 </context:component-scan>
 ```
 
 ##### 基于注解方式实现属性注入
 
 ###### @Autowired：根据属性类型进行自动装配 
+
+> 对于 `final` 属性，Spring 无法使用 setter 方法或者直接赋值的方式来注入依赖。
 
 第一步 把 service 和 dao 对象创建，在 service 和 dao 类添加创建对象注解 
 
@@ -1183,6 +1185,10 @@ public class UserService {
 
 这个@Qualifier 注解的使用，和上面@Autowired 一起使用
 
+> `@Qualifier` 注解用于解决 Spring 自动装配中的歧义性问题，它配合 `@Autowired` 注解使用，可以指定要注入的 bean 的名称或 ID。
+
+> 当一个接口有多个实现类时，使用 `@Autowired` 注解注入接口类型的 bean 时，Spring 无法判断应该注入哪个实现类的 bean，此时就会抛出 NoUniqueBeanDefinitionException 异常。为了解决这个问题，可以使用 `@Qualifier` 注解指定要注入的 bean 的名称或 ID。
+
 ```java
 //定义 dao 类型属性
 //不需要添加 set 方法
@@ -1193,6 +1199,8 @@ private UserDao userDao;
 ```
 
 ###### @Resource：可以根据类型注入，可以根据名称注入
+
+> `@Resource` 注解可以用于注入资源，如 JNDI 对象、数据源等，也可以用于注入其他 Spring 管理的 bean。当用于注入 bean 时，它可以指定要注入的 bean 的名称或 ID。
 
 ```java
 //@Resource //根据类型进行注入
@@ -1208,6 +1216,16 @@ private String name;
 ```
 
 ##### 完全注解开发 
+
+0. Spring 5中完全注解开发主要有以下几个步骤：
+
+1. 在Spring配置类上添加@Configuration注解，标识该类为Spring配置类；
+2. 使用@ComponentScan注解扫描需要被Spring管理的Bean，可以指定扫描路径；
+3. 使用@Bean注解定义Bean，可以指定Bean名称；
+4. 使用@Autowired注解注入Bean，可以在构造函数、Setter方法或字段上使用；
+5. 使用@Value注解注入属性值，可以在属性上使用；
+6. 使用@Qualifier注解指定注入的Bean名称，用于解决多个同类型Bean注入的问题；
+7. 使用@Scope注解指定Bean的作用域，可以是singleton或prototype。
 
 1. 创建配置类，替代 xml 配置文件
 

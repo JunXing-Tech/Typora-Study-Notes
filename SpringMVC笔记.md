@@ -90,7 +90,7 @@ Spring版本：5.3.1
 </dependencies>
 ```
 
-注：由于 Maven 的传递性，我们不必将所有需要的包全部配置依赖，而是配置最顶端的依赖，其他靠传递性导入。
+==注==：由于 Maven 的传递性，我们不必将所有需要的包全部配置依赖，而是配置最顶端的依赖，其他靠传递性导入。
 
 ![images](img\img001.png)
 
@@ -101,6 +101,8 @@ Spring版本：5.3.1
 ##### a>默认配置方式
 
 此配置作用下，SpringMVC的配置文件默认位于WEB-INF下，默认名称为\<servlet-name>-servlet.xml，例如，以下配置所对应SpringMVC的配置文件位于WEB-INF下，文件名为springMVC-servlet.xml
+
+默认配置方式的缺点有:不够灵活、不够安全、不够明确、不够统一
 
 ```xml
 <!-- 配置SpringMVC的前端控制器，对浏览器发送的请求统一进行处理 -->
@@ -118,6 +120,12 @@ Spring版本：5.3.1
     <url-pattern>/</url-pattern>
 </servlet-mapping>
 ```
+
+补充：
+
+>  在配置web.xml时，<url-pattern>标签应该填入“/”，表示将所有的请求都交给DispatcherServlet处理。这是因为SpringMVC的核心思想是基于URL映射，即将URL与Controller中的方法进行映射，由Controller来处理具体的业务逻辑。因此，所有的请求都需要经过DispatcherServlet进行分发，由它来确定具体的Controller来处理请求。
+
+>  也可以填入“/*”，但是这样会导致所有的请求都被DispatcherServlet处理，包括静态资源的请求，如图片、CSS、JavaScript等。这会导致DispatcherServlet的负载增加，同时也会影响系统性能。
 
 ##### b>扩展配置方式
 
@@ -140,6 +148,7 @@ Spring版本：5.3.1
 		而这些操作放在第一次请求时才执行会严重影响访问速度
 		因此需要通过此标签将启动控制DispatcherServlet的初始化时间提前到服务器启动时
 	-->
+    <!--将前端控制器DispatcherServlet的初始化时间提前到服务器启动时-->
     <load-on-startup>1</load-on-startup>
 </servlet>
 <servlet-mapping>
@@ -163,6 +172,16 @@ Spring版本：5.3.1
 >
 > /*则能够匹配所有请求，例如在使用过滤器时，若需要对所有请求进行过滤，就需要使用/\*的写法
 
+补充：
+
+> <load-on-startup>标签的作用与值
+>
+> <load-on-startup>标签用来指定Servlet在Web应用启动时就加载，而不是在第一次请求时才加载。它的取值可以是整数，表示Servlet的加载顺序。数字越小，表示越先加载，值为0表示最先加载。
+>
+> 在Spring MVC中，通常使用<load-on-startup>标签来配置DispatcherServlet的启动顺序。由于DispatcherServlet是整个Spring MVC框架的核心，因此需要在Web应用启动时就加载它，以确保整个框架的正常运行。
+>
+> 例如，配置DispatcherServlet的<load-on-startup>标签为1，表示在Web应用启动时就加载DispatcherServlet，并且它的加载顺序优先于其他的Servlet。这样可以确保DispatcherServlet在整个Web应用中的优先级最高，避免出现由于Servlet启动顺序问题而导致的异常情况。
+
 ### 4、创建请求控制器
 
 由于前端控制器对浏览器发送的请求进行了统一的处理，但是具体的请求有不同的处理过程，因此需要创建处理具体请求的类，即请求控制器
@@ -170,6 +189,8 @@ Spring版本：5.3.1
 请求控制器中每一个处理请求的方法成为控制器方法
 
 因为SpringMVC的控制器由一个POJO（普通的Java类）担任，因此需要通过@Controller注解将其标识为一个控制层组件，交给Spring的IoC容器管理，此时SpringMVC才能够识别控制器的存在
+
+> “Spring容器会自动将该类实例化”指的是，当一个类被标记为Spring框架中的某个注解（如@Controller、@Service、@Repository等）时，Spring容器会负责创建该类的实例，并将其纳入Spring容器的管理范围之内。在需要使用该类的地方，可以直接从Spring容器中获取该类的实例，而不用手动创建对象。具体来说，Spring容器会根据类上的注解和其他配置信息，使用Java反射机制创建该类的实例，并自动注入该类所依赖的其他Bean。这样，就可以在整个应用程序中共享同一个实例，从而实现了对象的复用和管理。
 
 ```java
 @Controller
@@ -180,9 +201,11 @@ public class HelloController {
 
 ### 5、创建springMVC的配置文件
 
+==注意==：springMVC.xml中的名称空间一定要注意！！！
+
 ```xml
 <!-- 自动扫描包 -->
-<context:component-scan base-package="com.atguigu.mvc.controller"/>
+<context:component-scan base-package="com.mvc.controller"/>
 
 <!-- 配置Thymeleaf视图解析器 -->
 <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
@@ -234,7 +257,7 @@ public class HelloController {
 
 ##### a>实现对首页的访问
 
-在请求控制器中创建处理请求的方法
+在请求控制器中创建处理请求的方法 
 
 ```java
 // @RequestMapping注解：处理请求和控制器方法之间的映射关系
@@ -260,7 +283,8 @@ public String index() {
 </head>
 <body>
     <h1>首页</h1>
-    <a th:href="@{/hello}">HelloWorld</a><br/>
+    <!--在Thymeleaf中，使用th:href="@{/target}"表示生成一个超链接，该超链接的目标地址是@RequestMapping("/target")-->
+    <a th:href="@{/target}">toTarget</a><br/>
 </body>
 </html>
 ```
@@ -268,7 +292,7 @@ public String index() {
 在请求控制器中创建处理请求的方法
 
 ```java
-@RequestMapping("/hello")
+@RequestMapping("/target")
 public String HelloWorld() {
     return "target";
 }
@@ -282,7 +306,7 @@ public String HelloWorld() {
 
 ### 1、@RequestMapping注解的功能
 
-从注解名称上我们可以看到，@RequestMapping注解的作用就是将请求和处理请求的控制器方法关联起来，建立映射关系。
+从注解名称上我们可以看到，@RequestMapping注解的作用就是==将请求和处理请求的控制器方法关联起来，建立映射关系==。
 
 SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。
 
@@ -293,6 +317,7 @@ SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的�
 @RequestMapping标识一个方法：设置映射请求请求路径的具体信息
 
 ```java
+//当@RequestMapping注解同时放在类和方法上时，它们的路径会进行拼接，即类上的路径和方法上的路径会拼接成最终的请求路径。这样可以更加灵活地对请求路径进行控制和管理。
 @Controller
 @RequestMapping("/test")
 public class RequestMappingController {
@@ -308,9 +333,11 @@ public class RequestMappingController {
 
 ### 3、@RequestMapping注解的value属性
 
-@RequestMapping注解的value属性通过请求的请求地址匹配请求映射
+@RequestMapping注解的value属性通过==请求的请求地址==匹配请求映射
 
-@RequestMapping注解的value属性是一个字符串类型的数组，表示该请求映射能够匹配多个请求地址所对应的请求
+@RequestMapping注解的value属性是一个==字符串类型的数组==，表示==该请求映射能够匹配多个请求地址所对应的请求==
+
+`String[] value() default{};`
 
 @RequestMapping注解的value属性必须设置，至少通过请求地址匹配请求映射
 
@@ -330,14 +357,13 @@ public String testRequestMapping(){
 
 ### 4、@RequestMapping注解的method属性
 
-@RequestMapping注解的method属性通过请求的请求方式（get或post）匹配请求映射
+@RequestMapping注解的method属性通过==请求的请求方式（get或post）匹配请求映射==
 
-@RequestMapping注解的method属性是一个RequestMethod类型的数组，表示该请求映射能够匹配多种请求方式的请求
+@RequestMapping注解的method属性是一个RequestMethod类型的==数组==，表示该请求映射能够匹配多种请求方式的请求
 
 若当前请求的请求地址满足请求映射的value属性，但是请求方式不满足method属性，则浏览器报错405：Request method 'POST' not supported
 
 ```html
-<a th:href="@{/test}">测试@RequestMapping的value属性-->/test</a><br>
 <form th:action="@{/test}" method="post">
     <input type="submit">
 </form>
@@ -353,6 +379,8 @@ public String testRequestMapping(){
 }
 ```
 
+@RequestMapping注解结合请求方式的派生注解
+
 > 注：
 >
 > 1、对于处理指定请求方式的控制器方法，SpringMVC中提供了@RequestMapping的派生注解
@@ -364,18 +392,45 @@ public String testRequestMapping(){
 > 处理put请求的映射-->@PutMapping
 >
 > 处理delete请求的映射-->@DeleteMapping
->
+
+测试form表单是否能够发送put和delete请求方式的请求
+
+```java
+@RequestMapping(value = "/testPut", method = RequestMethod.PUT)
+public String testPut(){
+    return "success";
+}
+```
+
+```html
+<form th:action = "@{/testPut}" method = "put">
+    <input type="submit" value="">
+</form>
+<!--报错为：Request method 'GET' not supported-->
+```
+
 > 2、常用的请求方式有get，post，put，delete
 >
 > 但是目前浏览器只支持get和post，若在form表单提交时，为method设置了其他请求方式的字符串（put或delete），则按照默认的请求方式get处理
 >
 > 若要发送put和delete请求，则需要通过spring提供的过滤器HiddenHttpMethodFilter，在RESTful部分会讲到
 
+```java
+@GetMapping("/testGetMapping")
+public String testGetMapping(){
+    return success;
+}
+```
+
 ### 5、@RequestMapping注解的params属性（了解）
 
-@RequestMapping注解的params属性通过请求的请求参数匹配请求映射
+@RequestMapping注解的params属性通过请求的==请求参数==匹配请求映射
 
 @RequestMapping注解的params属性是一个字符串类型的数组，可以通过四种表达式设置请求参数和请求映射的匹配关系
+
+```java
+@RequestMapping(value = "/path", params = {"param1=value1", "param2!=value2"})
+```
 
 "param"：要求请求映射所匹配的请求必须携带param请求参数
 
@@ -385,9 +440,7 @@ public String testRequestMapping(){
 
 "param!=value"：要求请求映射所匹配的请求必须携带param请求参数但是param!=value
 
-```html
-<a th:href="@{/test(username='admin',password=123456)">测试@RequestMapping的params属性-->/test</a><br>
-```
+==需要注意的是==，params属性指定的限制条件必须全部满足才能匹配成功。如果没有指定params属性，则表示请求没有任何限制条件。
 
 ```java
 @RequestMapping(
@@ -398,15 +451,36 @@ public String testRequestMapping(){
 public String testRequestMapping(){
     return "success";
 }
+
+@RequestMapping(
+    value = "/testParamsAndHeaders",
+    params = {"username"}
+)    
+public String testParamsAnd Headers(){
+    return "success";
+}
+```
+
+```html
+<!--无请求参数"username"时，浏览器会报错 "HTTP Status 400 - Parameter conditions "username" not met for actual request parameters"-->
+<a th:href = "@{/testParamsAndHeaders}"></a>
+<a th:href = "@{/testParamsAndHeaders(username="admin",password=123456}"></a>
+
 ```
 
 > 注：
 >
 > 若当前请求满足@RequestMapping注解的value和method属性，但是不满足params属性，此时页面回报错400：Parameter conditions "username, password!=123456" not met for actual request parameters: username={admin}, password={123456}
 
-### 6、@RequestMapping注解的headers属性（了解）
+### 6、@RequestMapping注解的headers属性（了解） 
 
-@RequestMapping注解的headers属性通过请求的请求头信息匹配请求映射
+> @RequestMapping注解的headers属性可以用于指定请求头的限制条件
+
+```java
+@RequestMapping(value = "/path", headers = {"Content-Type=application/json", "Accept=application/json"})
+```
+
+@RequestMapping注解的headers属性通过请求的==请求头信息==匹配请求映射
 
 @RequestMapping注解的headers属性是一个字符串类型的数组，可以通过四种表达式设置请求头信息和请求映射的匹配关系
 
@@ -421,6 +495,8 @@ public String testRequestMapping(){
 若当前请求满足@RequestMapping注解的value和method属性，但是不满足headers属性，此时页面显示404错误，即资源未找到
 
 ### 7、SpringMVC支持ant风格的路径
+
+即在路径中使用通配符和正则表达式来匹配多个URL路径。这种方式可以方便地处理复杂的URL匹配需求，如模糊匹配、多级匹配等。
 
 ？：表示任意的单个字符
 
@@ -451,6 +527,8 @@ public String testRest(@PathVariable("id") String id, @PathVariable("username") 
 //最终输出的内容为-->id:1,username:admin
 ```
 
+回顾原生Servlet获取请求参数
+
 # 四、SpringMVC获取请求参数
 
 ### 1、通过ServletAPI获取
@@ -465,6 +543,24 @@ public String testParam(HttpServletRequest request){
     System.out.println("username:"+username+",password:"+password);
     return "success";
 }
+
+//方案二
+@Controller
+public class ParamController{
+    @RequestMapping("/testServletAPI")
+ 	//形参位置的request表示当前请求
+    public String testServletAPI(HttpServletRequest request){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        System.out.println("username:"+username+",password:"+password);
+        return "success";
+    }
+}
+
+```
+
+```html
+<a th:href="@{/testServletAPI(username='admin',password='123456')}"></a>
 ```
 
 ### 2、通过控制器方法的形参获取请求参数
@@ -491,7 +587,37 @@ public String testParam(String username, String password){
 >
 > 若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果
 
-### 3、@RequestParam
+```html
+<form th:action="@{/testParam}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    爱好：<input type="checkbox" name="hobby" value="a">a
+    <input type="checkbox" name="hobby" value="b">b
+    <input type="checkbox" name="hobby" value="c">c<br>
+    <input type="submit" value="Test">
+</form>
+```
+
+```java
+@RequestMapping("/testParam")
+public String testParam(String username, String password, String[] hobby){
+    //若请求参数中出现多个同名的请求参数，可以在控制器方法的参数位置设置字符串类型或字符串数组接收此请求参数
+    //若使用字符串类型的形参，最终结果为请求参数的每一个值之间使用逗号进行拼接
+    System.out.println("username:"+username+",password:"+password+",hobby"+Arrays.toString(hobby));
+    return "success";
+} 
+```
+
+### 3、@RequestParam注解处理请求参数和控制器方法的形参的映射关系
+
+```java
+@RequestMapping("/testParam")
+public String testParam(
+    @RequestParam(value = "user_name", required = false, defaultValue = "hehe") String username,
+    String password,
+    String[] hobby
+)
+```
 
 @RequestParam是将请求参数和控制器方法的形参创建映射关系
 
@@ -505,24 +631,40 @@ required：设置是否必须传输此请求参数，默认值为true
 
 defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值
 
-### 4、@RequestHeader
+### 4、@RequestHeader注解处理请求头信息和控制器方法的形参的映射关系
+
+```java
+@RequestMapping("/testParam")
+public String testParam(
+    ...
+    @RequestHeader(value = "Host", required = true, defalitValue = "haha") String host
+)
+```
 
 @RequestHeader是将请求头信息和控制器方法的形参创建映射关系
 
 @RequestHeader注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
 
-### 5、@CookieValue
+### 5、@CookieValue注解处理cookie数据和控制器方法的形参的映射关系
+
+```java
+@RequestMapping("/testParam")
+public String testParam(
+    ...
+	@CookieValue("JSESSIONID") String JSESSIONID
+)
+```
 
 @CookieValue是将cookie数据和控制器方法的形参创建映射关系
 
 @CookieValue注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
 
-### 6、通过POJO获取请求参数
+### 6、通过POJO（实体类型）获取请求参数
 
 可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值
 
 ```html
-<form th:action="@{/testpojo}" method="post">
+<form th:action="@{/testBean}" method="post">
     用户名：<input type="text" name="username"><br>
     密码：<input type="password" name="password"><br>
     性别：<input type="radio" name="sex" value="男">男<input type="radio" name="sex" value="女">女<br>
@@ -533,15 +675,32 @@ defaultValue：不管required属性值为true或false，当value所指定的请�
 ```
 
 ```java
-@RequestMapping("/testpojo")
-public String testPOJO(User user){
+public class User{
+    private Integer id;
+    private String username;
+    private String password;
+    private Integer age;
+    private String sex;
+    private String email;
+    
+    //有参、无参构造器
+    //set、get方法
+    //toString方法
+}
+```
+
+```java
+@RequestMapping("/testBean")
+public String testBean(User user){
     System.out.println(user);
     return "success";
 }
 //最终结果-->User{id=null, username='张三', password='123', age=23, sex='男', email='123@qq.com'}
 ```
 
-### 7、解决获取请求参数的乱码问题
+### 7、解决获取请求参数的乱码问题（通过CharacterEncodingFilter处理获取请求参数的乱码问题）
+
+get请求的中文乱码问题可去tomcat的文件夹位置："D:\apache-tomcat-8.5.84-windows-x64\conf/server.xml"中<Connector/>中添加URIEncoding="UTF-8"可解决。
 
 解决获取请求参数的乱码问题，可以使用SpringMVC提供的编码过滤器CharacterEncodingFilter，但是必须在web.xml中进行注册
 

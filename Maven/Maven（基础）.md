@@ -1,4 +1,4 @@
-# Maven
+# Maven（基础）
 
 [toc]
 
@@ -279,7 +279,7 @@ Tomcat7插件安装
 * 声明优先：当资源在相同层级被依赖时，配置顺序靠前的覆盖配置顺序靠后的
 * 特殊优先：当同级配置了相同资源的不同版本，后配置的覆盖先配置的
 
-##### 可选依赖
+##### 可选依赖（不透明）
 
 * 可选依赖指对外隐藏当前所依赖的资源--不透明
 
@@ -293,10 +293,128 @@ Tomcat7插件安装
 </dependency>
 ```
 
-##### 排除依赖
+##### 排除依赖（不需要）
+
+* 排除依赖指主动断开依赖的资源，被排除的资源无需指定版本--不需要
+
+```xml
+<dependency>
+    <groupId>groupId</groupId>
+    <artifactId>artifactId</artifactId>
+    <version>version</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
 
 ##### 依赖范围
 
+* 依赖的jar默认情况可以在任何地方使用，可以通过scope标签设定其作用范围
+* 作用范围
+  * 主程序范围有效（main文件夹范围内）
+  * 测试程序范围有效（test文件夹范围内）
+  * 是否参与打包（package指令范围内）
+
+| scope           | 主打包 | 测试代码 | 打包 | 范例        |
+| --------------- | ------ | -------- | ---- | ----------- |
+| compile（默认） | Y      | Y        | Y    | log4j       |
+| test            |        | Y        |      | junit       |
+| provided        | Y      | Y        |      | servlet-api |
+| runtime         |        |          | Y    | hdbc        |
+
+###### 依赖范围传递性
+
+* 带有依赖范围的资源在进行传递时，作用范围将受到影响
+
+|          | compile | test | provided | runtime | 直接依赖 |
+| -------- | ------- | ---- | -------- | ------- | -------- |
+| compile  | compile | test | provided | runtime |          |
+| test     |         |      |          |         |          |
+| provided |         |      |          |         |          |
+| runtime  | runtime | test | provided | runtime |          |
+| 间接依赖 |         |      |          |         |          |
+
+##### 生命周期与插件
+
+##### 构建生命周期
+
+项目构建生命周期
+
+* Maven构建生命周期描述的是一次构建过程经历的多少事件
+
+```markdown
+compile -> test-compile -> test -> package -> install
+```
+
+* Maven对项目构建的生命周期划分为3套
+  * clean：清理工作
+  * default：核心工作，例如编译，测试，打包，部署等
+  * site：产生报告，发布站点等
+* clean生命周期
+  * pre-clean：执行清理前的准备工作。
+  * clean：清理项目，删除生成的目录和文件。
+  * post-clean：清理后的工作，例如生成一些报告或者日志。
+* default构建生命周期
+  * validate：验证项目是否正确并且所有必要的信息可用。
+  * initialize：初始化构建环境，例如设置构建版本号等。
+  * generate-sources：生成源代码，例如使用JavaCC等。
+  * process-sources：处理源代码，例如使用JavaDoc或者其他代码生成工具。
+  * generate-resources：生成资源文件，例如使用Maven Resource Plugin。
+  * process-resources：处理资源文件，例如复制资源文件到输出目录。
+  * compile：编译源代码。
+  * process-classes：处理编译后的代码，例如进行字节码增强等。
+  * generate-test-sources：生成测试代码。
+  * process-test-sources：处理测试代码，例如使用JavaDoc或者其他代码生成工具。
+  * generate-test-resources：生成测试资源文件。
+  * process-test-resources：处理测试资源文件，例如复制资源文件到输出目录。
+  * test-compile：编译测试代码。
+  * process-test-classes：处理编译后的测试代码，例如进行字节码增强等。
+  * test：执行测试。
+  * prepare-package：准备打包阶段，例如生成一些额外的文件或者目录。
+  * package：打包，例如生成JAR或者WAR文件。
+  * pre-integration-test：执行集成测试前的准备工作。
+  * integration-test：执行集成测试。
+  * post-integration-test：执行集成测试后的工作，例如生成一些报告或者日志。
+  * verify：验证构建的结果是否正确。
+  * install：安装构建结果到本地Maven仓库。
+  * deploy：部署构建结果到远程Maven仓库。
+
+* site构建生命周期
+  * pre-site：执行站点生成前的准备工作。
+  * site：生成站点文档。
+  * post-site：执行站点生成后的工作，例如打开浏览器查看生成的站点。
+  * site-deploy：将站点文档部署到远程服务器。
+
+##### 插件
+
+* 插件与生命周期内的阶段绑定，在执行到对应生命周期时执行对应的插件功能
+* 默认Maven在各个生命周期上绑定有预设的功能
+* 通过插件可以自定义其他功能
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                    <phase>generate-test-resources</phase>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
 
 
-[返回文首](#Maven)
+
+[返回文首](#Maven（基础）)
