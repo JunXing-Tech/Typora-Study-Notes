@@ -168,10 +168,10 @@ public String testAxios(String username, String password){
 }
 ```
 
-##### 7、@RestController注解
+#### 7、@RestController注解
 
 @RestController注解是springMVC提供的一个==复合注解==，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解
 
-##### 8、ResponseEntity
+#### 8、ResponseEntity
 
 ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文
