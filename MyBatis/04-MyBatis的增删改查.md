@@ -9,7 +9,6 @@
 <insert id="insertUser">
     insert into t_user values(null,'admin','123456',23,'男')
 </insert>
-
 ```
 
 #### 2、删除 
