@@ -43,11 +43,22 @@ int deleteMore(@Param("ids") String ids);
 ```java
 <!--int deleteMore(@Param("ids") String ids);-->
 <delete id="deleteMore">
+    <!--只能使用${}-->
     delete from t_user where id in (${ids});
 </delete>
 ```
 
-#### 3、动态设置表名
+```java
+@Test
+public void testDeleteMore(){
+    SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+    SQLMapper mapper = sqlSession.getMapper(SQLMapper.class);
+    int result = mapper.deleteMore("1, 2, 3");
+    System.out.println(result);
+}
+```
+
+#### 3、动态设置表名 
 
 ```java
 /**
@@ -55,14 +66,26 @@ int deleteMore(@Param("ids") String ids);
 * @param tableName
 * @return
 */
-List<User> getAllUser(@Param("tableName") String tableName);
+List<User> getUserByTableName(@Param("tableName") String tableName);
 ```
 
 ```xml
-<!--List<User> getAllUser(@Param("tableName") String tableName);-->
-<select id="getAllUser" resultType="User">
+<select id="getUserByTableName" resultType="User">
+    <!--表名不能加单引号，所以不能用#{}, 而是应该使用${}-->
     select * from ${tableName};
 </select>
+```
+
+```java
+@Test
+public void testGetUserByTableName(){
+    SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+    SQLMapper mapper = sqlSession.getMapper(SQLMapper.class);
+    List<User> list = mapper.getUserByTableName("t_user");
+    for(User user : list){
+        System.out.println(user);
+    }
+}
 ```
 
 #### 4、添加功能获取自增的主键
@@ -82,16 +105,28 @@ t_student(student_id,student_name,clazz_id)
 * 添加用户信息
 * @param user
 * @return
-* useGeneratedKeys：设置使用自增的主键
-* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参
-数user对象的某个属性中
+* useGeneratedKeys：设置当前标签中的sql使用了自增的主键
+* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数user对象的某个属性中（将自增的主键的值赋给传输到映射文件中参数的某个属性）
 */
-int insertUser(User user);
+void insertUser(User user);
 ```
 
 ```xml
 <!--int insertUser(User user);-->
 <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
-    insert into t_user values(null,#{username},#{password},#{age},#{sex});
+    insert into t_user values(null,#{username},#{password},#{age},#{sex}, #{email});
 </insert>
 ```
+
+```java
+@Test
+public void testInsertUser(){
+    SqlSession sqlSession = SqlSessionUtils.getSqlSession();
+    SQLMapper mapper = sqlSession.getMapper(SQLMapper.class);
+    User user = new User(null, "王五", "123", 23, "男", "12345@qq.com");
+    mapper.insertUser(user);
+    System.out.println(user.getId());
+    System.out.println(user);
+}
+```
+
