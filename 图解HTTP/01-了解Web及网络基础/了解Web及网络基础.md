@@ -1,4 +1,4 @@
-## 第一章	了解Web及网络基础
+## 第 1 章	了解Web及网络基础
 
 [toc]
 
@@ -12,7 +12,7 @@
 
 > 像这种通过**发送请求获取服务器资源**的 Web 浏览器等，都可称为客户端（client）。
 
-**如图**：<img src="D:\TyporaImageHost\image-20230607144834593.png" alt="image-20230607144834593" style="zoom: 80%;" />
+**如图**：<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230607144834593.png" alt="image-20230607144834593" style="zoom: 80%;" />
 
 图中的客户端在与服务器”互动“时，Web 使用一种名为 **HTTP（HyperText Transfer Protocol，超文本传输协议）**的协议作为规范，完成从客户端到服务器端等一系列运作流 程。而协议是指规则的约定。可以说，Web 是建立在 HTTP 协议上通信的。
 
@@ -60,7 +60,7 @@
 
 TCP/IP 是互联网相关的各类协议族的总称。
 
-**如图**：<img src="D:\TyporaImageHost\image-20230607152435502.png" alt="image-20230607152435502" style="zoom: 50%;" />
+**如图**：<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230607152435502.png" alt="image-20230607152435502" style="zoom: 67%;" />
 
 ##### 1.3.2 TCP/IP 的分层管理
 
@@ -94,7 +94,7 @@ TCP/IP 层次化有两个好处。**一是**：分层设计可以使互联网更
 
 **如图**
 
-<img src="D:\TyporaImageHost\image-20230608112556049.png" alt="image-20230608112556049" style="zoom: 45%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608112556049.png" alt="image-20230608112556049" style="zoom: 67%;" />
 
 可以分为四步（用 HTTP 举例来说明）：
 
@@ -107,7 +107,7 @@ TCP/IP 层次化有两个好处。**一是**：分层设计可以使互联网更
 
 **如图**
 
-<img src="D:\TyporaImageHost\image-20230608113455193.png" alt="image-20230608113455193" style="zoom:45%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608113455193.png" alt="image-20230608113455193" style="zoom: 67%;" />
 
 可知，发送端在层与层之间传输数据时，每经过一层时必定会被**打上**一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部**消去**。
 
@@ -145,7 +145,7 @@ ARP 是一种用以解析地址的协议，**根据通信方的IP 地址就可�
 
 综上所述，我们能大致IP协议的传输方式，**如下图**
 
-<img src="D:\TyporaImageHost\image-20230608142319437.png" alt="image-20230608142319437" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608142319437.png" alt="image-20230608142319437" style="zoom: 67%;" />
 
 ##### 1.4.2 确保可靠性的 TCP 协议
 
@@ -171,7 +171,7 @@ ARP 是一种用以解析地址的协议，**根据通信方的IP 地址就可�
 
 **如图所示**
 
-<img src="D:\TyporaImageHost\image-20230608144459927.png" alt="image-20230608144459927" style="zoom: 50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608144459927.png" alt="image-20230608144459927" style="zoom: 67%;" />
 
 除了上述三次握手，TCP 协议还有其他各种手段来保证通信的可靠性。比如：1.序列号和确认应答、2.序列号和确认应答、3.滑动窗口、4.拥塞控制、5.接收方窗口控制。
 
@@ -187,7 +187,7 @@ ARP 是一种用以解析地址的协议，**根据通信方的IP 地址就可�
 
 **如图**
 
-<img src="D:\TyporaImageHost\image-20230608145037289.png" alt="image-20230608145037289" style="zoom: 50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608145037289.png" alt="image-20230608145037289" style="zoom: 67%;" />
 
 #### 1.6 各种协议与 HTTP 协议的关系
 
@@ -195,7 +195,7 @@ ARP 是一种用以解析地址的协议，**根据通信方的IP 地址就可�
 
 **如图**
 
-<img src="D:\TyporaImageHost\image-20230608145252003.png" alt="image-20230608145252003" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230608145252003.png" alt="image-20230608145252003" style="zoom: 67%;" />
 
 #### 1.7 URI 和 URL
 
@@ -229,7 +229,7 @@ URI 是 Uniform Resource Identifier 的缩写。RFC2396 分别对这 3 个单 �
 
 **绝对URI的格式**
 
-![image-20230608150337303](D:\TyporaImageHost\image-20230608150337303.png)
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614143540876.png" alt="image-20230614143540876" style="zoom:80%;" />
 
 ```markdown
 http://user:pass@www.example.jp:80/dir/index.htm?uid=1#ch1
@@ -264,36 +264,3 @@ http://user:pass@www.example.jp:80/dir/index.htm?uid=1#ch1
 * **片段标识符**
 
 使用片段标识符通常可标记出已获取资源中的子资源（文档内的某个 位置）。但在 RFC 中并没有明确规定其使用方法。该项也为可选项。
-
-#### 1.8 总结
-
-```mermaid
-graph LR
-A[了解Web及网络基础] --> B[1.1 使用HTTP协议访问Web] --> HTTP与web的交互方式
-A --> C[1.2 HTTP的诞生]
-C --> D[1.2.1 为知识共享而规划Web]
-C --> c1[1.2.2 Web成长时代]
-C --> c2[1.2.3 驻足不前的HTTP]
-A --> E[1.3 网络基础TCP/IP]
-E --> F[1.3.1 TCP/IP协议族]
-F --> 什么是TCP/IP协议族
-E --> G[1.3.2 TCP/IP的分层管理]
-G --> 应用层&nbsp传输层&nbsp网络层&nbsp数据链路层
-E --> H[1.3.3 TCP/IP通信传输流]
-A --> J[1.4 与HTTP关系密切的协议IP TCP和DNS]
-J --> K[1.4.1 负责传输的IP协议]
-K --> IP地址&nbspMAC地址&nbspARP协议
-J --> L[1.4.2 确保可靠性的TCP协议]
-L --> 字节流服务&nbspSYN和ACK
-A --> N[1.5 负责域名解析的DNS服务]
-N --> O[讲述了何为DNS服务]
-A --> P[1.6 各种协议和HTTP协议的关系]
-P --> Q[文章中的图很好的说明了这一点]
-A --> R[1.7 URI和URL]
-R --> S[1.7.1 统一资源标识符]
-R --> T[1.7.2 URI格式]
-S --> U[URI和URL的关系及URI的组成]
-```
-
-
-
