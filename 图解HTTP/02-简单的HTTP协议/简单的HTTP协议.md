@@ -4,13 +4,13 @@
 
 > 本章将针对 HTTP 协议结构进行讲解，主要使用HTTP/1.1版本。学完这章，想必大家就能理解 HTTP 协议的基础了。
 
-PS：这一章做的最大的补充就是后面的“Cookie与Session”，原书的这一章Cookie没讲应用，Session压根没讲，我觉得不大行。
+注：这一章做的最大的补充就是后面的“Cookie与Session”，原书的这一章Cookie没讲应用，Session压根没讲，我觉得不大行。
 
 #### 2.1 HTTP 协议用于客户端和服务器端之间的通信
 
 > HTTP 协议和 TCP/IP 协议族内的其他众多的协议相同，用于**客户端和服务器之间的通信**。请求访问文本或图像等资源的一端称为客户端，而提供资源响应的一 端称为服务器端。
 
-**如图**：<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230609075554751.png" alt="image-20230609075554751" style="zoom: 67%;" />
+**如图**：								<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230609075554751.png" alt="image-20230609075554751" style="zoom: 67%;" />
 
 
 
@@ -22,7 +22,7 @@ PS：这一章做的最大的补充就是后面的“Cookie与Session”，原�
 
 > HTTP 协议规定，请求从客户端发出，最后服务器端响应该请求并返回。换句话说，肯定是先从客户端开始建立通信的，服务器端在没有接收到请求之前不会发送响应。
 
-**如图：**<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230609080006876.png" alt="image-20230609080006876" style="zoom:67%;" />
+**如图：**									<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230609080006876.png" alt="image-20230609080006876" style="zoom:67%;" />
 
 下面，我们来看一个具体的示例。
 
@@ -49,7 +49,7 @@ Host: hackr.jp
 
 请求报文是由**请求方法、请求 URI、协议版本、可选的请求首部字段和内容实体构成的**。
 
-**如图：**<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230610083703974.png" alt="image-20230610083703974" style="zoom: 60%;" />
+**如图：**								<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230610083703974.png" alt="image-20230610083703974" style="zoom: 67%;" />
 
 请求首部字段及内容实体稍后会作详细说明。接下来，我们继续讲解。接收到请求的服务器，会将**请求内容的处理结果以响应的形式（响应报文）**返回。
 
@@ -81,7 +81,7 @@ Content-Type: text/html
 
 > HTTP 是一种不保存状态，即**无状态（stateless）协议**。**HTTP 协议自身不对请求和响应之间的通信状态进行保存**。也就是说在 HTTP 这个级别，协议对于发送过的请求或响应都不做持久化处理。
 
-**如图：**<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHostOfRedis/image-20230610084958190.png" alt="image-20230610084958190" style="zoom:60%;" />
+**如图：**								<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230617084057030.png" alt="image-20230617084057030" style="zoom:67%;" />
 
 **无状态协议的优缺点及解决方案**
 
@@ -97,7 +97,7 @@ HTTP/1.1 虽然是无状态协议，但为了实现期望的保持状态功能�
 
 **下图是 HTTP 协议使用 URI 让客户端定位到资源**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230610085623560.png" alt="image-20230610085623560" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230610085623560.png" alt="image-20230610085623560" style="zoom: 67%;" />
 
 当客户端请求访问资源而发送请求时，**URI 需要将作为请求报文中的请求 URI 包含在内**。指定请求 URI 的方式有很多。
 
@@ -130,11 +130,11 @@ OPTIONS * HTTP/1.1
 
 例如，当我们在浏览器中输入一个URL时，浏览器会向服务器发送一个GET请求，服务器会返回对应的网页。**在RESTful API中，GET请求常用于获取资源列表或单个资源的详细信息**。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112740090.png" alt="image-20230613112740090" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112740090.png" alt="image-20230613112740090" style="zoom: 67%;" />
 
 **如图是使用 GET 方法的请求 / 响应的例子**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613110112157.png" alt="image-20230613110112157" style="zoom: 60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613110112157.png" alt="image-20230613110112157" style="zoom: 67%;" />
 
 ##### POST：传输实体主体
 
@@ -146,11 +146,11 @@ POST是HTTP协议中的一种请求方法，用于向服务器提交实体主体
 
 **在RESTful API中，POST请求常用于创建新资源或更新已有资源**。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112339366.png" alt="image-20230613112339366" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112339366.png" alt="image-20230613112339366" style="zoom: 67%;" />
 
 **如图是使用 POST 方法的请求 / 响应的例子**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613110635738.png" alt="image-20230613110635738" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613110635738.png" alt="image-20230613110635738" style="zoom: 67%;" />
 
 在日常使用中，后端开发在编写Controller层时，需要去考虑请求是GET或者POST（亲身体会），所以这两个请求要进行补充和着重说明。主要是两点：1.使用场景，2.两者的不同
 
@@ -189,11 +189,11 @@ PUT请求常用于将客户端的数据传输到服务器上，例如上传文�
 
 **在RESTful API中，PUT请求常用于更新已有资源，例如更新用户信息、修改文章内容等操作**。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112828304.png" alt="image-20230613112828304" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112828304.png" alt="image-20230613112828304" style="zoom: 67%;" />
 
 **如图是使用 PUT 方法的请求 / 响应的例子**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112924455.png" alt="image-20230613112924455" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613112924455.png" alt="image-20230613112924455" style="zoom: 67%;" />
 
 其中响应是请求执行成功了，但无数据返回。
 
@@ -206,7 +206,7 @@ HEAD请求常用于获取服务器上的资源信息，例如文件大小、修�
 
 **在RESTful API中，HEAD请求可以用于检查资源是否存在，以及获取资源的元数据信息，例如ETag、Last-Modified等**。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113342396.png" alt="image-20230613113342396" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113342396.png" alt="image-20230613113342396" style="zoom: 67%;" />
 
 
 
@@ -221,11 +221,11 @@ DELETE是HTTP协议中的一种请求方法，用于从服务器上删除指定�
 
 **DELETE请求常用于删除服务器上的文件、记录等资源。在RESTful API中，DELETE请求常用于删除已有资源，例如删除用户、删除文章等操作**。需要注意的是，**DELETE请求是不可逆的操作**，删除后无法恢复，因此需要谨慎使用。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113558597.png" alt="image-20230613113558597" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113558597.png" alt="image-20230613113558597" style="zoom: 67%;" />
 
 **如图是使用 DELETE 方法的请求 / 响应的例子**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113625537.png" alt="image-20230613113625537" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113625537.png" alt="image-20230613113625537" style="zoom: 67%;" />
 
 ##### OPTIONS：询问支持的方法
 
@@ -236,11 +236,11 @@ OPTIONS请求常用于查询服务器支持哪些HTTP方法，以及了解服务
 
 **在RESTful API中，OPTIONS请求可以用于查询资源支持的HTTP方法，以及了解服务器的CORS策略等信息**。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113949310.png" alt="image-20230613113949310" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613113949310.png" alt="image-20230613113949310" style="zoom: 67%;" />
 
 **如图是使用 OPTIONS 方法的请求 / 响应的例子**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613114027329.png" alt="image-20230613114027329" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613114027329.png" alt="image-20230613114027329" style="zoom: 67%;" />
 
 ##### TRACE：追踪路径
 
@@ -252,15 +252,9 @@ OPTIONS请求常用于查询服务器支持哪些HTTP方法，以及了解服务
 
 但是，TRACE 方法本来就不怎么常用，再加上它容易引发 XST（Cross-Site Tracing，跨站追踪）攻击，通常就更不会用到了。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613114255262.png" alt="image-20230613114255262" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613114255262.png" alt="image-20230613114255262" style="zoom: 67%;" />
 
 **如图是使用 TRACE 方法的请求 / 响应的例子**
-
-| 请求             | 响应            |
-| ---------------- | --------------- |
-| TRACE / HTTP/1.1 | HTTP/1.1 200 OK |
-| Host: hackr.jp   | Content         |
-| Max-Forwards: 2  |                 |
 
 <table>
     <tr><th>请求</th></tr>
@@ -287,11 +281,11 @@ CONNECT 方法要求在与代理服务器通信时建立隧道，实现用隧道
 CONNECT 代理服务器名 : 端口号 HTTP版本
 ```
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613115542617.png" alt="image-20230613115542617" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613115542617.png" alt="image-20230613115542617" style="zoom: 67%;" />
 
 如图是使用 CONNECT 方法的请求 / 响应的例子
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613115626594.png" alt="image-20230613115626594" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613115626594.png" alt="image-20230613115626594" style="zoom: 67%;" />
 
 #### 2.6 使用方法下达命令
 
@@ -301,7 +295,7 @@ CONNECT 代理服务器名 : 端口号 HTTP版本
 
 **如图**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613143951168.png" alt="image-20230613143951168" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613143951168.png" alt="image-20230613143951168" style="zoom: 67%;" />
 
 下表列出了 **HTTP/1.0 和 HTTP/1.1 支持的方法**。另外，方法名区分大 小写，注意要用大写字母。
 
@@ -324,7 +318,7 @@ CONNECT 代理服务器名 : 端口号 HTTP版本
 
 > HTTP 协议的初始版本中，每进行一次 HTTP 通信就要断开一次 TCP 连接。
 
-**如图所示**<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613144538327.png" alt="image-20230613144538327" style="zoom:60%;" />
+**如图所示**											<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613144538327.png" alt="image-20230613144538327" style="zoom: 67%;" />
 
 以当年的通信情况来说，因为都是些容量很小的文本传输，所以即使这样也没有多大问题。可随着 HTTP 的普及，文档中包含大量图片的情况多了起来。
 
@@ -332,7 +326,7 @@ CONNECT 代理服务器名 : 端口号 HTTP版本
 
 **如图**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613144803018.png" alt="image-20230613144803018" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613144803018.png" alt="image-20230613144803018" style="zoom: 67%;" />
 
 ##### 2.7.1 持久连接
 
@@ -342,7 +336,7 @@ CONNECT 代理服务器名 : 端口号 HTTP版本
 
 **如图，持久连接旨在建立 1 次 TCP 连接后进行多次请求和响应的交互**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613145208589.png" alt="image-20230613145208589" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613145208589.png" alt="image-20230613145208589" style="zoom: 67%;" />
 
 **持久连接的好处**
 
@@ -400,7 +394,7 @@ Cookie 会根据从服务器端发送的响应报文内的一个叫做 Set-Cooki
 
 * **第2次以后（存有Cookie信息状态）的请求**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613151343026.png" alt="image-20230613151343026" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230613151343026.png" alt="image-20230613151343026" style="zoom: 67%;" />
 
 上图展示了发生 Cookie 交互的情景，HTTP 请求报文和响应报文的内容如下。
 
