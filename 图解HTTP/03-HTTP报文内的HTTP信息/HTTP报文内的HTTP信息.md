@@ -2,6 +2,8 @@
 
 [toc]
 
+**本文是在 “《图解HTTP》作者：上野宣” 一书的基础上做补充和说明，仅供学习与交流目的**
+
 > HTTP 通信过程包括从客户端发往服务器端的请求及从服务器端返回 客户端的响应。本章就让我们来了解一下请求和响应是怎样运作的。
 
 注：这章主要就是讲HTTP报文（如题），内容不多，补充不多
@@ -14,9 +16,9 @@
 
 HTTP 报文大致可分为**报文首部和报文主体两块**。两者由最初出现空行（CR+LF）来划分。通常，并不一定要有报文主体。
 
-**如图时HTTP报文的结构**
+**如图是HTTP报文的结构**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614093844871.png" alt="image-20230614093844871" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614093844871.png" alt="image-20230614093844871" style="zoom: 67%;" />
 
 * **报文首部**
 
@@ -36,13 +38,13 @@ CR（ Carriage Return，回车符：16进制 0x0d）和 LF（Line Feed，换行�
 
 **如图，请求报文（上）和响应报文（下）的结构**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614094338740.png" alt="image-20230614094338740" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614094338740.png" alt="image-20230614094338740" style="zoom: 67%;" />
 
 **如图，请求报文（上）和响应报文（下）的实例**
 
 目前了解了解即可。
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614094447122.png" alt="image-20230614094447122" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614094447122.png" alt="image-20230614094447122" style="zoom: 67%;" />
 
 请求报文和响应报文的首部内容由以下数据组成。现在出现的各种首部字段及状态码稍后会进行阐述。
 
@@ -90,7 +92,7 @@ HTTP协议中的报文分为请求报文和响应报文，每个报文都由报�
 
 因此，HTTP报文的主体用于传输请求或响应的实体主体，也就是说，报文主体和实体主体是紧密相关的，报文主体中的数据内容是实体主体的一部分，而实体首部则用于描述实体主体的属性和元数据信息。通过报文主体和实体主体的配合，HTTP协议可以灵活地传输各种类型的数据，如文本、图片、视频等。
 
-通常，报文主体等于实体主体。只有当传输中进行编码操作时，实体 主体的内容发生变化，才导致它和报文主体产生差异。
+通常，报文主体等于实体主体。只有当传输中进行编码操作时，实体主体的内容发生变化，才导致它和报文主体产生差异。
 
 ##### 3.3.2 压缩传输的内容编码
 
@@ -100,7 +102,7 @@ HTTP协议中的报文分为请求报文和响应报文，每个报文都由报�
 
 **如图，内容编码**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614102631912.png" alt="image-20230614102631912" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614102631912.png" alt="image-20230614102631912" style="zoom: 67%;" />
 
 常用的内容编码有以下几种。
 
@@ -117,7 +119,7 @@ HTTP协议中的报文分为请求报文和响应报文，每个报文都由报�
 
 **如图，分块传输编码**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614103209946.png" alt="image-20230614103209946" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614103209946.png" alt="image-20230614103209946" style="zoom:67%;" />
 
 分块传输编码会将实体主体分成多个部分（块）。每一块都会用十六进制来标记块( chunk )的大小，而实体主体的最后一块会使用“0(CR+LF)”来标记。
 
@@ -149,7 +151,7 @@ HTTP/1.1 中存在一种称为传输编码（Transfer Coding）的机制，它�
 
 发送邮件时，我们可以在邮件里写入文字并添加多份附件。这是因为采用了 **MIME（Multipurpose Internet Mail Extensions，多用途因特网邮件扩展）机制**，它允许邮件处理文本、图片、视频等多个不同类型的数据。
 
-**如图：**						<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614104852185.png" alt="image-20230614104852185" style="zoom:60%; " />
+**如图：**					<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614104852185.png" alt="image-20230614104852185" style="zoom: 67%;" />
 
 例如，图片等二进制数据以 ASCII 码字符串编码的方式指明， 就是利用 MIME 来描述标记数据型。而在 MIME 扩展中会使用一 种称为多部分对象集合（Multipart）的方法，来容纳多份不同类型的数据。
 
@@ -233,7 +235,7 @@ Content-Range: bytes 500-999/8000
 
 **如图所示**
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614112158478.png" alt="image-20230614112158478" style="zoom:60%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614112158478.png" alt="image-20230614112158478" style="zoom: 67%;" />
 
 执行范围请求时，会用到首部字段 Range 来指定资源的 byte 范围。
 
@@ -263,7 +265,7 @@ Content-Range: bytes 500-999/8000
 
 **如图**(了解即可)
 
-<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614112634296.png" alt="image-20230614112634296" style="zoom:50%;" />
+<img src="https://cdn.staticaly.com/gh/JunXing-Tech/Image-Host@main/imageHost/image-20230614112634296.png" alt="image-20230614112634296" style="zoom: 67%;" />
 
 内容协商机制是指客户端和服务器端就响应的资源内容进行交涉，然后提供给客户端最为适合的资源。内容协商会以响应资源的语言、字符集、编码方式等作为判断的基准。 
 
@@ -291,14 +293,14 @@ Content-Range: bytes 500-999/8000
 
 **内容协商技术有以下 3 种类型（了解即可）**
 
-**服务器驱动协商（Server-driven Negotiation） **
+**服务器驱动协商（Server-driven Negotiation）**
 
 由服务器端进行内容协商。以请求的首部字段为参考，在服务器端自 动处理。但对用户来说，以浏览器发送的信息作为判定的依据，并不 一定能筛选出最优内容。 
 
-**客户端驱动协商（Agent-driven Negotiation） **
+**客户端驱动协商（Agent-driven Negotiation）**
 
 由客户端进行内容协商的方式。用户从浏览器显示的可选项列表中手 动选择。还可以利用 JavaScript 脚本在 Web 页面上自动进行上述选 择。比如按 OS 的类型或浏览器类型，自行切换成 PC 版页面或手机 版页面。 
 
-**透明协商（Transparent Negotiation） **
+**透明协商（Transparent Negotiation）**
 
 是服务器驱动和客户端驱动的结合体，是由服务器端和客户端各自进 行内容协商的一种方法。
