@@ -19,6 +19,22 @@ graph TD;
 	B-->D;
 ```
 
+```mermaid
+graph LR
+  subgraph 应用系统
+    A[Web应用] --> B[业务逻辑]
+    B --> C[数据访问]
+  end
+  
+  subgraph 数据库
+    D[关系数据库]
+    E[NoSQL数据库]
+  end
+  
+  C --> D
+  C --> E
+```
+
 #### **时序图**
 
 > 语法解释：`->>` 代表实线箭头，`-->>` 则代表虚线。
